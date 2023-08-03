@@ -1,0 +1,90 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /forum
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blaze_maple_forum?characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
+    username: root
+    password:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+  thymeleaf:
+    cache: false
+  mail:
+    host: smtp.163.com
+    port: 465
+    username:
+    password: ALHBVHNEWAGPNZDP
+    protocol: smtp
+    properties:
+      mail.smtp.ssl.enable: true
+  redis:
+    host: 163.197.213.4
+    port: 6379
+    password:
+    database: 1
+  rabbitmq:
+    host: 163.197.213.4
+    port: 5672
+    username: blazemaple
+    password: blazemaple
+    virtual-host: forum
+  elasticsearch:
+    uris:
+
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: forumScheduler
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            isClustered: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+
+logging:
+  level:
+    com.blazemaple.forum: debug
+
+
+forum:
+  path:
+    domain: http://localhost:8080
+    upload: D:/WebLearning/BlazeMaple-Forum/image
+
+qiniu:
+  key:
+    access:
+    secret:
+  bucket:
+    header:
+      name: blazemaple-header
+      url: http://rxmlk67hy.hn-bkt.clouddn.com
+
+
+caffeine:
+  posts:
+    max-size: 15
+    expire-seconds: 180

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blazemaple.forum.mapper.DiscussPostMapper">
+
+    <resultMap id="BaseResultMap" type="com.blazemaple.forum.domain.entity.DiscussPost">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="userId" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="commentCount" column="commentCount" jdbcType="INTEGER"/>
+            <result property="score" column="score" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userId,title,
+        content,type,status,
+        createTime,commentCount,score
+    </sql>
+    <update id="updateCommentCount">
+        update discuss_post
+        set commentCount=#{commentCount}
+        where id=#{id}
+    </update>
+
+    <select id="selectDiscussPost" resultType="com.blazemaple.forum.domain.entity.DiscussPost">
+        select <include refid="Base_Column_List"></include>
+        from discuss_post
+        where status !=2
+        <if test="userId != null and userId!=0">
+            and userId=#{userId}
+        </if>
+        <if test="orderMode==0">
+            order by type desc,createTime desc
+        </if>
+        <if test="orderMode==1">
+            order by type desc,score desc,createTime desc
+        </if>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="selectDiscussPostRows" resultType="integer">
+        select count(id)
+        from discuss_post
+        where status!=2
+        <if test="userId != null and userId!=0">
+            and userId=#{userId}
+        </if>
+    </select>
+
+</mapper>
