@@ -17,23 +17,23 @@ spring:
   thymeleaf:
     cache: false
   mail:
-    host: smtp.163.com
-    port: 465
+    host:
+    port: 
     username:
-    password: ALHBVHNEWAGPNZDP
-    protocol: smtp
+    password:
+    protocol: 
     properties:
       mail.smtp.ssl.enable: true
   redis:
-    host: 163.197.213.4
+    host: 
     port: 6379
     password:
     database: 1
   rabbitmq:
-    host: 163.197.213.4
+    host: 
     port: 5672
-    username: blazemaple
-    password: blazemaple
+    username: 
+    password: 
     virtual-host: forum
   elasticsearch:
     uris:
